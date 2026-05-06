@@ -1,0 +1,84 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "de-azure-4-data-factory"
+		},
+		"ADLC_CONN_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLC_CONN'"
+		},
+		"Snowflake_CONN_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Snowflake_CONN'"
+		},
+		"ADLC_CONN_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://azure3storage.dfs.core.windows.net/"
+		},
+		"Snowflake_CONN_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "SALES_MART"
+		},
+		"Snowflake_CONN_properties_typeProperties_role": {
+			"type": "string",
+			"defaultValue": "ACCOUNTADMIN"
+		},
+		"Snowflake_CONN_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "hjsygkc-bn78539.snowflakecomputing.com"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "de-azure-4-data-factory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ADLC_CONN_accountKey": {
+						"value": "[parameters('ADLC_CONN_accountKey')]"
+					},
+					"Snowflake_CONN_password": {
+						"value": "[parameters('Snowflake_CONN_password')]"
+					},
+					"ADLC_CONN_properties_typeProperties_url": {
+						"value": "[parameters('ADLC_CONN_properties_typeProperties_url')]"
+					},
+					"Snowflake_CONN_properties_typeProperties_database": {
+						"value": "[parameters('Snowflake_CONN_properties_typeProperties_database')]"
+					},
+					"Snowflake_CONN_properties_typeProperties_role": {
+						"value": "[parameters('Snowflake_CONN_properties_typeProperties_role')]"
+					},
+					"Snowflake_CONN_properties_typeProperties_host": {
+						"value": "[parameters('Snowflake_CONN_properties_typeProperties_host')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
